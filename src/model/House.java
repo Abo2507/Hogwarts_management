@@ -10,7 +10,7 @@ public class House implements Scoreable {
     private int points;
     private List<Student> students;
 
-    public House(String name, String founder, int points) {
+    public House(int id, String name, String founder, int points) {
         this.name = name;
         this.founder = founder;
         this.points = points;
