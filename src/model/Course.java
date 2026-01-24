@@ -6,7 +6,7 @@ public class Course {
     private Integer professorId;
     private int credits;
 
-    public Course(String name, Integer professorId, int credits){
+    public Course(String name, Integer professorId, int credits) {
         this.name = name;
         this.professorId = professorId;
         this.credits = credits;
