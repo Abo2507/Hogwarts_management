@@ -119,7 +119,6 @@ public class Main {
             }
 
             System.out.println("\n--- Scoreable Interface ---");
-
             Scoreable scoreableStudent = student;
             System.out.println("Student " + student.getName() + " points before: " + scoreableStudent.getPoints());
             scoreableStudent.addPoints(10);
