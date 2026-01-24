@@ -86,8 +86,8 @@ public class House implements Scoreable {
         this.students = students != null ? new ArrayList<>(students) : new ArrayList<>();
     }
     @Override
-    public String toString(){
-        return  String.format("House: %s | Founder: %s | Points: %d | Students: %d",
+    public String toString() {
+        return String.format("House: %s | Founder: %s | Points: %d | Students: %d",
                 name, founder, points, students.size());
     }
 }

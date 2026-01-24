@@ -1,6 +1,6 @@
 package model;
 
-public abstract class  Person {
+public abstract class Person {
     private int id;
     private String name;
     private int age;
@@ -12,7 +12,7 @@ public abstract class  Person {
         this.houseId = houseId;
     }
 
-    public Person(int id, String name, int age, Integer houseId){
+    public Person(int id, String name, int age, Integer houseId) {
         this.id = id;
         this.name = name;
         this.age = age;
@@ -23,21 +23,24 @@ public abstract class  Person {
     public abstract String getDetails();
 
     public String getFullInfo() {
-        return String.format("ID: %d | Name: %s | Age: %d |" +
-                " Role: %s ", id, name, age, getRole());
+        return String.format("ID: %d | Name: %s | Age: %d | Role: %s",
+                id, name, age, getRole());
     }
 
     public int getId() {
         return id;
     }
-    public void setId(int id){
+
+    public void setId(int id) {
         this.id = id;
     }
-    public String getNamae() {
+
+    public String getName() {
         return name;
     }
+
     public void setName(String name) {
-        if (name== null || name.trim().isEmpty()) {
+        if (name == null || name.trim().isEmpty()) {
             throw new IllegalArgumentException("Name cannot be empty");
         }
         this.name = name;
@@ -57,7 +60,8 @@ public abstract class  Person {
     public Integer getHouseId() {
         return houseId;
     }
-    public void setHouseId(Integer houseId){
+
+    public void setHouseId(Integer houseId) {
         this.houseId = houseId;
     }
 
