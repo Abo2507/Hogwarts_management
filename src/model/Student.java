@@ -16,7 +16,7 @@ public class Student extends Person implements Validatable, Scoreable {
         this.personalPoints = 0;
     }
 
-    public Student(int id, String name, int age, Integer houseId,int year, String patronus) {
+    public Student(int id, String name, int age, Integer houseId, int year, String patronus) {
         super(id, name, age, houseId);
         this.year = year;
         this.patronus = patronus;
@@ -29,28 +29,29 @@ public class Student extends Person implements Validatable, Scoreable {
     }
 
     @Override
-    public String getDetails(){
+    public String getDetails() {
         return String.format("%s | Year: %d | Patronus: %s | Points: %d",
-                getFullInfo(), year, patronus != null ? patronus
-                        : "Unknown", personalPoints);
+                getFullInfo(), year, patronus != null ? patronus : "Unknown", personalPoints);
     }
 
+    // Implementing Validatable interface
     @Override
     public void validate() throws InvalidInputException {
         if (getName() == null || getName().trim().isEmpty()) {
-            throw new InvalidInputException("Student name cannot be epmty");
+            throw new InvalidInputException("Student name cannot be empty");
         }
         if (getAge() < 11 || getAge() > 18) {
-            throw new InvalidInputException("Studnt age must be between 11 and 18");
+            throw new InvalidInputException("Student age must be between 11 and 18");
         }
         if (year < 1 || year > 7) {
-            throw new InvalidInputException("Students year must be between 1 and 7");
+            throw new InvalidInputException("Student year must be between 1 and 7");
         }
-        if (getHouse() == null) {
-            throw new InvalidInputException("Student must be assigned to the house");
+        if (getHouseId() == null) {
+            throw new InvalidInputException("Student must be assigned to a house");
         }
     }
 
+    // Implementing Scoreable interface
     @Override
     public void addPoints(int points) {
         if (points > 0) {
@@ -60,9 +61,9 @@ public class Student extends Person implements Validatable, Scoreable {
 
     @Override
     public void deductPoints(int points) {
-       if (points > 0) {
-           this.personalPoints = Math.max(0, this.personalPoints - points);
-       }
+        if (points > 0) {
+            this.personalPoints = Math.max(0, this.personalPoints - points);
+        }
     }
 
     @Override
@@ -70,21 +71,30 @@ public class Student extends Person implements Validatable, Scoreable {
         return personalPoints;
     }
 
+    // Getters and Setters
     public int getYear() {
+        return year;
+    }
+
+    public void setYear(int year) {
         if (year < 1 || year > 7) {
-            throw new IllegalArgumentException("Year must be between 1and 7");
+            throw new IllegalArgumentException("Year must be between 1 and 7");
         }
         this.year = year;
     }
-    public String getpatronus() {
+
+    public String getPatronus() {
         return patronus;
     }
+
     public void setPatronus(String patronus) {
         this.patronus = patronus;
     }
+
     public void setPersonalPoints(int personalPoints) {
         this.personalPoints = personalPoints;
     }
+
     @Override
     public String toString() {
         return getDetails();
