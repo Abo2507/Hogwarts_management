@@ -37,9 +37,7 @@ public class Student extends Person implements Validatable, Scoreable {
     // Implementing Validatable interface
     @Override
     public void validate() throws InvalidInputException {
-        if (getName() == null || getName().trim().isEmpty()) {
-            throw new InvalidInputException("Student name cannot be empty");
-        }
+        Validatable.validateNotEmpty(getName(), "Student name");
         if (getAge() < 11 || getAge() > 18) {
             throw new InvalidInputException("Student age must be between 11 and 18");
         }
