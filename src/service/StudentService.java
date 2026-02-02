@@ -3,18 +3,27 @@ package service;
 import model.Student;
 import repository.StudentRepository;
 import repository.HouseRepository;
+import repository.interfaces.CrudRepository;
+import service.interfaces.IStudentService;
 import exception.*;
-
 import java.util.List;
-public class StudentService {
-    private final StudentRepository studentRepository;
-    private final HouseRepository houseRepository;
+
+public class StudentService implements IStudentService {
+
+    private final CrudRepository<Student> studentRepository;
+    private final CrudRepository<model.House> houseRepository;
 
     public StudentService() {
         this.studentRepository = new StudentRepository();
         this.houseRepository = new HouseRepository();
     }
 
+    public StudentService(CrudRepository<Student> studentRepository, CrudRepository<model.House> houseRepository) {
+        this.studentRepository = studentRepository;
+        this.houseRepository = houseRepository;
+    }
+
+    @Override
     public Student createStudent(Student student) throws InvalidInputException, DatabaseOperationException, ResourceNotFoundException {
         student.validate();
 
@@ -25,14 +34,17 @@ public class StudentService {
         return studentRepository.create(student);
     }
 
+    @Override
     public List<Student> getAllStudents() throws DatabaseOperationException {
         return studentRepository.getAll();
     }
 
+    @Override
     public Student getStudentById(int id) throws DatabaseOperationException, ResourceNotFoundException {
         return studentRepository.getById(id);
     }
 
+    @Override
     public Student updateStudent(int id, Student student) throws InvalidInputException, DatabaseOperationException, ResourceNotFoundException {
         student.validate();
 
@@ -43,23 +55,19 @@ public class StudentService {
         return studentRepository.update(id, student);
     }
 
+    @Override
     public void deleteStudent(int id) throws DatabaseOperationException, ResourceNotFoundException {
         studentRepository.delete(id);
     }
 
+    @Override
     public List<Student> getStudentsByHouse(int houseId) throws DatabaseOperationException, ResourceNotFoundException {
         houseRepository.getById(houseId);
-        return studentRepository.getByHouseId(houseId);
-    }
 
-    public void awardPointsToStudent(int studentId, int points) throws DatabaseOperationException, ResourceNotFoundException, InvalidInputException {
-        if (points <= 0) {
-            throw new InvalidInputException("Points to award must be positive");
+        if (studentRepository instanceof StudentRepository) {
+            return ((StudentRepository) studentRepository).getByHouseId(houseId);
         }
 
-        Student student = studentRepository.getById(studentId);
-        student.addPoints(points);
-
-        System.out.println("Awarded " + points + " points to " + student.getName());
+        throw new DatabaseOperationException("Repository does not support house filtering");
     }
 }
