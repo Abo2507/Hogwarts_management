@@ -1,6 +1,7 @@
 package repository;
 
 import model.House;
+import repository.interfaces.CrudRepository;
 import util.DatabaseConnection;
 import exception.DatabaseOperationException;
 import exception.ResourceNotFoundException;
@@ -9,8 +10,9 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public class HouseRepository {
+public class HouseRepository implements CrudRepository<House> {
 
+    @Override
     public House create(House house) throws DatabaseOperationException {
         String sql = "INSERT INTO houses (name, founder, points) VALUES (?, ?, ?)";
 
@@ -41,6 +43,7 @@ public class HouseRepository {
         }
     }
 
+    @Override
     public List<House> getAll() throws DatabaseOperationException {
         List<House> houses = new ArrayList<>();
         String sql = "SELECT * FROM houses";
@@ -65,6 +68,7 @@ public class HouseRepository {
         }
     }
 
+    @Override
     public House getById(int id) throws DatabaseOperationException, ResourceNotFoundException {
         String sql = "SELECT * FROM houses WHERE id = ?";
 
@@ -90,9 +94,8 @@ public class HouseRepository {
         }
     }
 
-    public House update(int id, House house)
-            throws DatabaseOperationException, ResourceNotFoundException {
-
+    @Override
+    public House update(int id, House house) throws DatabaseOperationException, ResourceNotFoundException {
         String sql = "UPDATE houses SET name = ?, founder = ?, points = ? WHERE id = ?";
 
         try (Connection conn = DatabaseConnection.getConnection();
@@ -116,9 +119,8 @@ public class HouseRepository {
         }
     }
 
-    public void delete(int id)
-            throws DatabaseOperationException, ResourceNotFoundException {
-
+    @Override
+    public void delete(int id) throws DatabaseOperationException, ResourceNotFoundException {
         String sql = "DELETE FROM houses WHERE id = ?";
 
         try (Connection conn = DatabaseConnection.getConnection();
@@ -136,9 +138,7 @@ public class HouseRepository {
         }
     }
 
-    public void updatePoints(int id, int points)
-            throws DatabaseOperationException, ResourceNotFoundException {
-
+    public void updatePoints(int id, int points) throws DatabaseOperationException, ResourceNotFoundException {
         String sql = "UPDATE houses SET points = ? WHERE id = ?";
 
         try (Connection conn = DatabaseConnection.getConnection();

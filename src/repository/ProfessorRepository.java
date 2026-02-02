@@ -1,16 +1,17 @@
 package repository;
 
 import model.Professor;
+import repository.interfaces.CrudRepository;
 import util.DatabaseConnection;
 import exception.DatabaseOperationException;
 import exception.ResourceNotFoundException;
-
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ProfessorRepository {
+public class ProfessorRepository implements CrudRepository<Professor> {
 
+    @Override
     public Professor create(Professor professor) throws DatabaseOperationException {
         String sql = "INSERT INTO persons (name, age, person_type, house_id, subject, salary) VALUES (?, ?, 'PROFESSOR', ?, ?, ?)";
 
@@ -43,6 +44,7 @@ public class ProfessorRepository {
         }
     }
 
+    @Override
     public List<Professor> getAll() throws DatabaseOperationException {
         List<Professor> professors = new ArrayList<>();
         String sql = "SELECT * FROM persons WHERE person_type = 'PROFESSOR'";
@@ -61,6 +63,7 @@ public class ProfessorRepository {
         }
     }
 
+    @Override
     public Professor getById(int id) throws DatabaseOperationException, ResourceNotFoundException {
         String sql = "SELECT * FROM persons WHERE id = ? AND person_type = 'PROFESSOR'";
 
@@ -81,6 +84,7 @@ public class ProfessorRepository {
         }
     }
 
+    @Override
     public Professor update(int id, Professor professor) throws DatabaseOperationException, ResourceNotFoundException {
         String sql = "UPDATE persons SET name = ?, age = ?, house_id = ?, subject = ?, salary = ? WHERE id = ? AND person_type = 'PROFESSOR'";
 
@@ -113,6 +117,7 @@ public class ProfessorRepository {
         }
     }
 
+    @Override
     public void delete(int id) throws DatabaseOperationException, ResourceNotFoundException {
         String sql = "DELETE FROM persons WHERE id = ? AND person_type = 'PROFESSOR'";
 
