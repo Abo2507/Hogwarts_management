@@ -6,9 +6,11 @@ import util.DatabaseConnection;
 import util.ReflectionUtils;
 import util.SortingUtils;
 import exception.*;
+import interfaces.Validatable;   // ← ВАЖНО
 
 import java.util.List;
 import java.util.Scanner;
+
 
 public class Main {
 

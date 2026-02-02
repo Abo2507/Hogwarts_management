@@ -20,9 +20,16 @@ public interface Validatable {
             throw new InvalidInputException(fieldName + " cannot be empty");
         }
     }
+
     static void validatePositive(int value, String fieldName) throws InvalidInputException {
         if (value <= 0) {
             throw new InvalidInputException(fieldName + " must be positive");
+        }
+    }
+
+    static void validateRange(int value, int min, int max, String fieldName) throws InvalidInputException {
+        if (value < min || value > max) {
+            throw new InvalidInputException(fieldName + " must be between " + min + " and " + max);
         }
     }
 }

@@ -38,6 +38,7 @@ public class Student extends Person implements Validatable, Scoreable {
     @Override
     public void validate() throws InvalidInputException {
         Validatable.validateNotEmpty(getName(), "Student name");
+
         if (getAge() < 11 || getAge() > 18) {
             throw new InvalidInputException("Student age must be between 11 and 18");
         }
