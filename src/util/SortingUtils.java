@@ -19,7 +19,7 @@ public class SortingUtils {
         list.sort((p1, p2) -> p2.getName().compareToIgnoreCase(p1.getName()));
     }
     //--------------------
-    public static <T extends Person> void sortByage(List<T> list) {
+    public static <T extends Person> void sortByAge(List<T> list) {
         list.sort((Comparator.comparingInt(Person::getAge)));
     }
 
@@ -27,9 +27,11 @@ public class SortingUtils {
         list.sort((p1, p2) -> Integer.compare(p2.getAge(), p1.getAge()));
     }
     //-------------------(Name and Patronus)
-    public static void sortstudentsBytear(List<Student> students){
+    public static void sortStudentsByYear(List<Student> students){
         students.sort((s1, s2) -> Integer.compare(s1.getYear(), s2.getYear()));
     }
+
+
 
     public static void sortStudentByYearDescending(List<Student> students) {
         students.sort((s1, s2) -> Integer.compare(s2.getYear(), s1.getYear()));
@@ -43,14 +45,14 @@ public class SortingUtils {
         });
     }
     //--------------------(Professors sorting)
+    public static void sortProfessorsBySalary(List<Professor> professors) {
+        professors.sort((p1, p2) -> Double.compare(p2.getSalary(), p1.getSalary()));
+    }
 
     public static void sortProfessorsBySalaryAscending(List<Professor> professors) {
         professors.sort(Comparator.comparingDouble(Professor ::getSalary));
     }
 
-    public static void sortProfessorBySalaryAscending(List<Professor> professors) {
-        professors.sort(Comparator.comparingDouble((Professor ::getSalary)));
-    }
 
     public static void sortProfessorBySubject(List<Professor> professors){
         professors.sort((p1, p2) -> p1.getSubject().compareToIgnoreCase(p2.getSubject()));
@@ -58,7 +60,7 @@ public class SortingUtils {
     }
     //--------------------(House sorting)
 
-    public static void sortHouseByPoints(List<House> houses){
+    public static void sortHousesByPoints(List<House> houses){
         houses.sort((h1, h2) -> Integer.compare(h2.getPoints(), h1.getPoints()));
     }
 
@@ -83,6 +85,11 @@ public class SortingUtils {
 
     public static List<Student> filterByYear(List<Student> students, int year) {
         return students.stream().filter(s -> s.getYear() == year)
+                .collect(Collectors.toList());
+    }
+    public static List<Student> filterStudentsWithPatronus(List<Student> students) {
+        return students.stream()
+                .filter(s -> s.getPatronus() != null && !s.getPatronus().isEmpty())
                 .collect(Collectors.toList());
     }
 
