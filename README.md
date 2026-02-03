@@ -231,6 +231,29 @@ The Demo Mode showcases:
 * Reflection
 
 ---
+## Scheme: 
+
+assignment4-solid-library-api/
+├── src/
+│   ├── controller/
+│   ├── service/
+│   │   ├── interfaces/
+│   ├── repository/
+│   │   ├── interfaces/
+│   ├── model/
+│   ├── exception/
+│   ├── utils/
+│   │   ├── ReflectionUtils.java
+│   │   ├── SortingUtils.java
+│   ├── DatabaseConnection.java
+│   └── Main.java
+├── resources/
+│   └── schema.sql
+├── docs/
+│   ├── screenshots/
+│   └── uml.png
+├── README.md
+└── .gitignore
 
 ##  Possible Improvements (Future Work)
 
@@ -241,3 +264,31 @@ The Demo Mode showcases:
 
 ---
 
+## Reflection 
+During this project, I learned about SOLID principles and how they work. I aslo learned how to use advansed Java features such as: generics, lambdas etc.
+
+## Chalanges
+I faced problems  like : 
+
+!. Correctly applying Dependency Inversion Principle (DIP) without overcomplicating the design
+
+2. Avoiding anti-patterns such as instanceof checks and new keyword usage inside service classes
+
+3. Understanding where business logic should live (service layer) versus where it should not (controller/repository)
+
+
+## Value of SOLID Architecture
+
+Using SOLID architecture provided several key benefits:
+
+
+Low coupling: Changes in one layer do not break others
+
+
+High cohesion: Each class has a clear and focused responsibility
+
+
+Scalability: New features (e.g., DTOs, REST API, tests) can be added without major refactoring
+
+
+Readability & maintainability: The project structure is easy to understand and follow
