@@ -1,22 +1,27 @@
 package controller;
 
 import model.*;
-import service.*;
+import service.interfaces.IHouseService;
+import service.interfaces.IStudentService;
+import service.interfaces.IProfessorService;
+
 import exception.*;
 import java.util.List;
 import java.util.Scanner;
 
 public class HogwartsController {
 
-    private final HouseService houseService;
-    private final StudentService studentService;
-    private final ProfessorService professorService;
+    private final IHouseService houseService;
+    private final IStudentService studentService;
+    private final IProfessorService professorService;
     private final Scanner scanner;
 
-    public HogwartsController() {
-        this.houseService = new HouseService();
-        this.studentService = new StudentService();
-        this.professorService = new ProfessorService();
+    public HogwartsController(IHouseService houseService,
+                              IStudentService studentService,
+                              IProfessorService professorService) {
+        this.houseService = houseService;
+        this.studentService = studentService;
+        this.professorService = professorService;
         this.scanner = new Scanner(System.in);
     }
 
