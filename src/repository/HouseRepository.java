@@ -1,7 +1,7 @@
 package repository;
 
 import model.House;
-import repository.interfaces.CrudRepository;
+import repository.interfaces.HouseRepositoryInterface;
 import util.DatabaseConnection;
 import exception.DatabaseOperationException;
 import exception.ResourceNotFoundException;
@@ -10,7 +10,7 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public class HouseRepository implements CrudRepository<House> {
+public class HouseRepository implements HouseRepositoryInterface {
 
     @Override
     public House create(House house) throws DatabaseOperationException {
@@ -138,6 +138,7 @@ public class HouseRepository implements CrudRepository<House> {
         }
     }
 
+    @Override
     public void updatePoints(int id, int points) throws DatabaseOperationException, ResourceNotFoundException {
         String sql = "UPDATE houses SET points = ? WHERE id = ?";
 

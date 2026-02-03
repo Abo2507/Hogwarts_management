@@ -22,7 +22,6 @@ import java.util.Scanner;
 
 public class Main {
 
-    // ✅ теперь НЕ final и НЕ создаем new тут
     private static IHouseService houseService;
     private static IStudentService studentService;
     private static IProfessorService professorService;
@@ -59,7 +58,7 @@ public class Main {
         int choice = scanner.hasNextInt() ? scanner.nextInt() : 2;
 
         if (choice == 1) {
-            // ✅ controller теперь создается через DI
+
             HogwartsController controller = new HogwartsController(houseService, studentService, professorService);
             controller.start();
             controller.close();

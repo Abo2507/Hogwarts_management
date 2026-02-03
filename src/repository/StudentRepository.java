@@ -1,7 +1,7 @@
 package repository;
 
 import model.Student;
-import repository.interfaces.CrudRepository;
+import repository.interfaces.StudentRepositoryInterface;
 import util.DatabaseConnection;
 import exception.DatabaseOperationException;
 import exception.ResourceNotFoundException;
@@ -9,7 +9,7 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public class StudentRepository implements CrudRepository<Student> {
+public class StudentRepository implements StudentRepositoryInterface {
 
     @Override
     public Student create(Student student) throws DatabaseOperationException {
@@ -124,6 +124,7 @@ public class StudentRepository implements CrudRepository<Student> {
         }
     }
 
+    @Override
     public List<Student> getByHouseId(int houseId) throws DatabaseOperationException {
         List<Student> students = new ArrayList<>();
         String sql = "SELECT * FROM persons WHERE house_id = ? AND person_type = 'STUDENT'";

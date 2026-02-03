@@ -1,24 +1,19 @@
 package service;
 
+import model.House;
 import model.Student;
-import repository.StudentRepository;
-import repository.HouseRepository;
 import repository.interfaces.CrudRepository;
+import repository.interfaces.StudentRepositoryInterface;
 import service.interfaces.IStudentService;
 import exception.*;
 import java.util.List;
 
 public class StudentService implements IStudentService {
 
-    private final CrudRepository<Student> studentRepository;
-    private final CrudRepository<model.House> houseRepository;
+    private final StudentRepositoryInterface studentRepository;
+    private final CrudRepository<House> houseRepository;
 
-    public StudentService() {
-        this.studentRepository = new StudentRepository();
-        this.houseRepository = new HouseRepository();
-    }
-
-    public StudentService(CrudRepository<Student> studentRepository, CrudRepository<model.House> houseRepository) {
+    public StudentService(StudentRepositoryInterface studentRepository, CrudRepository<House> houseRepository) {
         this.studentRepository = studentRepository;
         this.houseRepository = houseRepository;
     }
@@ -64,10 +59,6 @@ public class StudentService implements IStudentService {
     public List<Student> getStudentsByHouse(int houseId) throws DatabaseOperationException, ResourceNotFoundException {
         houseRepository.getById(houseId);
 
-        if (studentRepository instanceof StudentRepository) {
-            return ((StudentRepository) studentRepository).getByHouseId(houseId);
-        }
-
-        throw new DatabaseOperationException("Repository does not support house filtering");
+        return studentRepository.getByHouseId(houseId);
     }
 }

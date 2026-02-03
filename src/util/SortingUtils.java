@@ -12,8 +12,9 @@ import java.util.stream.Collectors;
 
 public class SortingUtils {
     public static <T extends Person> void sortByName(List<T> list) {
-        list.sort((p1, p2) -> p2.getName().compareToIgnoreCase(p1.getName()));
+        list.sort((p1, p2) -> p1.getName().compareToIgnoreCase(p2.getName()));
     }
+
 
     public static <T extends Person> void sortByNameDescending(List<T> list) {
         list.sort((p1, p2) -> p2.getName().compareToIgnoreCase(p1.getName()));
