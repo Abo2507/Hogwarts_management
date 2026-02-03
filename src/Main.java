@@ -2,21 +2,30 @@ import model.*;
 import service.*;
 import service.interfaces.*;
 import controller.HogwartsController;
+
+import repository.HouseRepository;
+import repository.StudentRepository;
+import repository.ProfessorRepository;
+import repository.interfaces.CrudRepository;
+import repository.interfaces.HouseRepositoryInterface;
+import repository.interfaces.StudentRepositoryInterface;
+
 import util.DatabaseConnection;
 import util.ReflectionUtils;
 import util.SortingUtils;
+
 import exception.*;
 import interfaces.Validatable;   // ← ВАЖНО
 
 import java.util.List;
 import java.util.Scanner;
 
-
 public class Main {
 
-    private static final IHouseService houseService = new HouseService();
-    private static final IStudentService studentService = new StudentService();
-    private static final IProfessorService professorService = new ProfessorService();
+    // ✅ теперь НЕ final и НЕ создаем new тут
+    private static IHouseService houseService;
+    private static IStudentService studentService;
+    private static IProfessorService professorService;
 
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
@@ -30,6 +39,18 @@ public class Main {
             return;
         }
 
+        // ============================================================
+        // ✅ Composition Root (Dependency Injection)
+        // ============================================================
+        HouseRepositoryInterface houseRepo = new HouseRepository();
+        StudentRepositoryInterface studentRepo = new StudentRepository();
+        CrudRepository<Professor> professorRepo = new ProfessorRepository();
+
+        houseService = new HouseService(houseRepo);
+        studentService = new StudentService(studentRepo, houseRepo);
+        professorService = new ProfessorService(professorRepo, houseRepo);
+        // ============================================================
+
         System.out.println("\nChoose mode:");
         System.out.println("1. Interactive Mode (CLI with menu)");
         System.out.println("2. Demo Mode (automated demonstrations)");
@@ -38,7 +59,8 @@ public class Main {
         int choice = scanner.hasNextInt() ? scanner.nextInt() : 2;
 
         if (choice == 1) {
-            HogwartsController controller = new HogwartsController();
+            // ✅ controller теперь создается через DI
+            HogwartsController controller = new HogwartsController(houseService, studentService, professorService);
             controller.start();
             controller.close();
         } else {
@@ -302,7 +324,7 @@ public class Main {
         System.out.println("\nTop 3 oldest students:");
         for (int i = 0; i < topStudents.size(); i++) {
             Student s = topStudents.get(i);
-            System.out.println("  " + (i+1) + ". " + s.getName() + " (Age: " + s.getAge() + ")");
+            System.out.println("  " + (i + 1) + ". " + s.getName() + " (Age: " + s.getAge() + ")");
         }
 
         System.out.println(SortingUtils.getHouseStatistics(students));
@@ -354,20 +376,10 @@ public class Main {
         for (int i = 0; i < houses.size(); i++) {
             House h = houses.get(i);
             String medal = i == 0 ? "🥇" : i == 1 ? "🥈" : i == 2 ? "🥉" : "  ";
-            System.out.println("  " + medal + " " + (i+1) + ". " + h.getName() + ": " + h.getPoints() + " points");
+            System.out.println("  " + medal + " " + (i + 1) + ". " + h.getName() + ": " + h.getPoints() + " points");
         }
 
         System.out.println("\n--- GENERIC REPOSITORY DEMONSTRATION ---");
-        System.out.println("Using CrudRepository<Student> interface:");
-        System.out.println("  ✓ create(entity) returns Student");
-        System.out.println("  ✓ getAll() returns List<Student>");
-        System.out.println("  ✓ getById(id) returns Student");
-        System.out.println("  ✓ Generic type safety enforced at compile time!");
-
-        System.out.println("\n--- DEPENDENCY INVERSION PRINCIPLE ---");
-        System.out.println("✓ HouseService depends on CrudRepository<House> interface");
-        System.out.println("✓ StudentService depends on CrudRepository<Student> interface");
-        System.out.println("✓ Controller depends on IHouseService, IStudentService interfaces");
-        System.out.println("✓ All dependencies point to abstractions, not concrete classes!");
+        System.out.println("Using CrudRepository<Student> interface");
     }
 }
